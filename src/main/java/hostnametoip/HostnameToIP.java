@@ -1,5 +1,5 @@
 
-package hostnametoIP;
+package hostnametoip;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

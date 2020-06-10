@@ -5,9 +5,11 @@
 # concurrenthashmap
 场景：用来测试两个线程同时对同一个map里面的key进行访问，一个线程往这个map里面put东西；另外一个线程从这个map里面取数据。
 模仿了golang的chan模型
-# hostnametoIP
+# hostnametoip
 把hostname 转化为ip的一个工具
 # simpledateformat
 详细描述了SimpleDateFormat中，对于毫秒位置不能够正确识别的问题。
 # synchronizedtest
 本类主要演示了synchronized中notify的使用
+# scheduleexecutor
+演示了定时调度器的使用
