@@ -13,3 +13,6 @@
 本类主要演示了synchronized中notify的使用
 # scheduleexecutor
 演示了定时调度器的使用
+# ExecuteSubmitDemo
+演示了，当往线程池中提交一个任务的时候，但是这个任务会抛出异常，但是我们想把这个异常抛出来，而不是catch住，应该怎么使用的问题。
+简单的说，要在任务中throw new RuntimeException(e.getMessage())即可。
