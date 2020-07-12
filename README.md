@@ -18,3 +18,5 @@
 简单的说，要在任务中throw new RuntimeException(e.getMessage())即可。
 # WaitThreadTest
 多线程之间通过wait进行时间等待，进行同步的方式。调用wait的时候，不一定真的会wait那么长时间，因为有可能其他线程通过调用notify方式会让这个线程唤醒。
+# threadpool
+对比了创建线程和使用线程池的开销大小
