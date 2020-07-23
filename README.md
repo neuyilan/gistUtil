@@ -22,3 +22,5 @@
 对比了创建线程和使用线程池的开销大小
 # ReentrantLockgetOwnerExample
 打印当前锁是被哪个线程持有的
+参考 https://www.javatpoint.com/java-reentrantlock-getowner-method
+

@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author HouliangQi(neuyilan @ 163.com)
- * @description
+ * @description 参考： https://www.javatpoint.com/java-reentrantlock-getowner-method
  * @since 2020-07-23 9:39 上午
  */
 public class ReentrantLockgetOwnerExample {
