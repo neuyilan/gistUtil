@@ -1,9 +1,3 @@
-/**
- * @Description
- * @Author qihouliang@bonc.com.cn
- * @Date 2020-07-02 8:13 下午
- */
-
 package threadpool;
 
 /**
