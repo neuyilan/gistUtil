@@ -16,7 +16,9 @@ import org.apache.commons.codec.digest.DigestUtils;
  */
 public class HardLinkTest {
     private String originFileName = "test.file";
-    private int maxCount = 1000;
+    private long maxCount = 1000L;
+
+    private byte[] dataToWrite = new byte[1024 * 1024];
 
     public void createFile() {
         File file = new File(originFileName);
@@ -31,6 +33,7 @@ public class HardLinkTest {
             for (int i = 0; i < maxCount; i++) {
                 String str = "yes!" + i;
                 fos.write(str.getBytes());
+                fos.write(dataToWrite);
             }
         } catch (IOException e) {
             e.printStackTrace();
