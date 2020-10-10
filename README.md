@@ -24,4 +24,9 @@
 打印当前锁是被哪个线程持有的
 参考 https://www.javatpoint.com/java-reentrantlock-getowner-method
 # HardLinkTest
-文件的硬连接测试
+java中文件的硬连接测试，硬连接虽然会copy一个相同的文件，但是占用的磁盘空间却是不变的，即硬连接的文件没有实际的大小。
+# ArraySort
+测试不同大小的数据在内存排序所花的时间
+1500 size array sort cost: 0.170667 ms
+500000 size array sort cost: 48.337955 ms
+
