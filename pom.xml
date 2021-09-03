@@ -6,7 +6,18 @@
 
   <groupId>org.example</groupId>
   <artifactId>qhlMavenTest</artifactId>
+  <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
+
+  <properties>
+
+    <!--
+    https://curator.apache.org/zk-compatibility-34.html
+    If you wish to use Curator with ZooKeeper 3.4.x you should pin to version 4.2.x of Curator.
+    Curator 4.2.x supports ZooKeeper 3.4.x ensembles in a soft-compatibility mode
+    -->
+    <curator.version>4.2.0</curator.version>
+  </properties>
   <build>
     <plugins>
       <plugin>
@@ -17,6 +28,59 @@
           <target>8</target>
         </configuration>
       </plugin>
+
+      <!--      &lt;!&ndash;      配置打包，并配置MainClass， 但不将依赖包打包，会出现找不到依赖的异常    &ndash;&gt;-->
+      <!--      <plugin>-->
+      <!--        <groupId>org.apache.maven.plugins</groupId>-->
+      <!--        <artifactId>maven-jar-plugin</artifactId>-->
+      <!--        <configuration>-->
+      <!--          <archive>-->
+      <!--            <manifest>-->
+      <!--              <addClasspath>true</addClasspath>-->
+      <!--              &lt;!&ndash;   MANIFEST.MF 中 Class-Path &ndash;&gt;-->
+      <!--              <classpathPrefix>lib/</classpathPrefix>-->
+      <!--              <mainClass>alluxio.CacheTest</mainClass>-->
+      <!--            </manifest>-->
+      <!--          </archive>-->
+      <!--        </configuration>-->
+      <!--      </plugin>-->
+      <!--      &lt;!&ndash;      配置依赖包      &ndash;&gt;-->
+      <!--      <plugin>-->
+      <!--        <groupId>org.apache.maven.plugins</groupId>-->
+      <!--        <artifactId>maven-dependency-plugin</artifactId>-->
+      <!--        <executions>-->
+      <!--          <execution>-->
+      <!--            <id>copy-dependencies</id>-->
+      <!--            <phase>package</phase>-->
+      <!--            <goals>-->
+      <!--              <goal>copy-dependencies</goal>-->
+      <!--            </goals>-->
+      <!--            <configuration>-->
+      <!--              &lt;!&ndash;              将依赖包打包至target下的lib目录              &ndash;&gt;-->
+      <!--              <outputDirectory>${project.build.directory}/lib</outputDirectory>-->
+      <!--            </configuration>-->
+      <!--          </execution>-->
+      <!--        </executions>-->
+      <!--      </plugin>-->
+
+
+      <!-- 打包方式： mvn package assembly:single  -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.5.5</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>alluxio.CacheTest</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 
@@ -40,11 +104,11 @@
       <version>1.10</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>log4j-over-slf4j</artifactId>
-      <version>1.7.25</version>
-    </dependency>
+    <!--    <dependency>-->
+    <!--      <groupId>org.slf4j</groupId>-->
+    <!--      <artifactId>log4j-over-slf4j</artifactId>-->
+    <!--      <version>1.7.25</version>-->
+    <!--    </dependency>-->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
@@ -74,6 +138,127 @@
       <version>2.6</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-vfs2 -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-vfs2</artifactId>
+      <version>2.7.0</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>jcifs</groupId>
+      <artifactId>jcifs</artifactId>
+      <version>1.3.17</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>com.hierynomus</groupId>
+      <artifactId>sshj</artifactId>
+      <version>0.31.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.jcraft</groupId>
+      <artifactId>jsch</artifactId>
+      <version>0.1.55</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.kamranzafar</groupId>
+      <artifactId>jtar</artifactId>
+      <version>2.2</version>
+    </dependency>
+
+    <!--for alluxio cache test-->
+    <!--    <dependency>-->
+    <!--      <groupId>org.alluxio</groupId>-->
+    <!--      <artifactId>alluxio-shaded-client</artifactId>-->
+    <!--      <version>2.6.0-SNAPSHOT</version>-->
+    <!--      <scope>compile</scope>-->
+    <!--    </dependency>-->
+    <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-hdfs -->
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-hdfs</artifactId>
+      <version>3.3.0</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-common -->
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-common</artifactId>
+      <version>3.3.0</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-client -->
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-client</artifactId>
+      <version>3.3.0</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-auth -->
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-auth</artifactId>
+      <version>3.3.0</version>
+    </dependency>
+
+    <!--for alluxio cache test-->
+
+    <!--    &lt;!&ndash; Internal dependencies &ndash;&gt;-->
+    <!--    <dependency>-->
+    <!--      <groupId>org.alluxio</groupId>-->
+    <!--      <artifactId>alluxio-core-client-fs</artifactId>-->
+    <!--      <version>2.6.0-SNAPSHOT</version>-->
+    <!--    </dependency>-->
+    <!--    <dependency>-->
+    <!--      <groupId>org.alluxio</groupId>-->
+    <!--      <artifactId>alluxio-core-common</artifactId>-->
+    <!--      <version>2.6.0-SNAPSHOT</version>-->
+    <!--    </dependency>-->
+
+    <!--    <dependency>-->
+    <!--      <groupId>org.alluxio</groupId>-->
+    <!--      <artifactId>alluxio-shaded-client</artifactId>-->
+    <!--      <version>2.6.0-SNAPSHOT</version>-->
+    <!--      <scope>compile</scope>-->
+    <!--    </dependency>-->
+
+
+    <!-- thrift test -->
+    <dependency>
+      <groupId>org.apache.thrift</groupId>
+      <artifactId>libthrift</artifactId>
+      <version>0.14.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.iotdb</groupId>
+      <artifactId>iotdb-session</artifactId>
+      <version>0.12.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.iotdb</groupId>
+      <artifactId>service-rpc</artifactId>
+      <version>0.12.1</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>1.2.47</version>
+    </dependency>
 
   </dependencies>
 
