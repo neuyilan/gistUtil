@@ -40,8 +40,9 @@ public class LockHang {
     System.out.println("Thread={}" + Thread.currentThread() + " get read lock");
     try {
       // do something
-
       cache.invalidate(1);
+      // 这个函数有可能触发部分cache remove操作，所以也会造成当前线程卡死
+      cache.getIfPresent(1);
     } finally {
       lock.readLock().unlock();
       System.out.println("Thread={}" + Thread.currentThread() + " unlock the read lock");
