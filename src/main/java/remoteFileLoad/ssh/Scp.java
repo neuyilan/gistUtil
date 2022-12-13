@@ -1,24 +1,23 @@
 package remoteFileLoad.ssh;
 
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
-
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Scp {
 	private static final int FATAL_ERROR = 2;
 	private static final int ERROR = 1;
-	private static final Logger log = Logger.getLogger(Scp.class);
+	private static final Logger log = LoggerFactory.getLogger(Scp.class);
 
 	public static void exec(final SecureContext pContext, String pLocalFile,
 			String pRemoteFile) throws JSchException, IOException {

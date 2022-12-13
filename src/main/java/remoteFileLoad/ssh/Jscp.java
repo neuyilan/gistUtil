@@ -5,12 +5,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import remoteFileLoad.gzip.TarAndGzip;
 
 public class Jscp {
 
-  private static final Logger log = Logger.getLogger(Jscp.class);
+  private static final Logger log = LoggerFactory.getLogger(Jscp.class);
 
   public static void exec(SecureContext pContext, String pSrcDir,
       String pRemotePath, List<String> pIgnores) throws IOException,
