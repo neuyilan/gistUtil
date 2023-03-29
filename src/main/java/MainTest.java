@@ -4,13 +4,10 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.apache.hadoop.fs.StorageType;
 
@@ -20,6 +17,9 @@ import org.apache.hadoop.fs.StorageType;
  * @since 2020-07-21 7:46 下午
  */
 public class MainTest {
+
+
+
 
   public MainTest(String s1, String s2) {
 
@@ -39,22 +39,15 @@ public class MainTest {
 
   public static void main(String[] args)
       throws IOException, ExecutionException, InterruptedException, ParseException {
-    ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+    String tmp = null;
+    MainTest test = new MainTest();
+    test.changeTmp(tmp);
+    System.out.println(tmp);
 
-    ScheduledExecutorService scheduledExecutorService2 = Executors.newSingleThreadScheduledExecutor();
-    MainTest mainTest = new MainTest();
-    scheduledExecutorService.scheduleAtFixedRate(() -> {
-      System.out.println(mainTest.getValue());
-    }, 0, 1, TimeUnit.SECONDS);
+  }
 
-    scheduledExecutorService2.scheduleAtFixedRate(() -> {
-      Random random = new Random();
-      ConcurrentHashMap<String, String> vv = new ConcurrentHashMap<>();
-
-      vv.put("key" + random.nextInt(), "value" + random.nextInt());
-      mainTest.getValue().clear();
-      mainTest.setValue(vv);
-    }, 0, 1, TimeUnit.SECONDS);
+  public void changeTmp(String tmp) {
+    tmp = "aaa";
   }
 
   public ConcurrentHashMap<String, String> getValue() {

@@ -3,6 +3,7 @@ package hadoop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +40,7 @@ public class HdfsWrite {
   private static final Logger logger = LoggerFactory.getLogger(HdfsWrite.class);
 
   public static void main(String[] args) throws Exception {
-    writeArchiveFile4();
+    writeArchiveFile33();
 //    readArchiveFile();
 //    readFile();
 //    testGetBlockInfo();
@@ -106,7 +107,31 @@ public class HdfsWrite {
     System.out.println(res);
   }
 
-
+  public static void writeArchiveFile33() throws Exception {
+    Configuration conf = new Configuration();
+    // Set FileSystem URI
+    String hdfsuri = "hdfs://172.16.48.4:9000/";
+    conf.set("fs.defaultFS", hdfsuri);
+    // Because of Maven
+    conf.set("fs.hdfs.impl", org.apache.hadoop.hdfs.DistributedFileSystem.class.getName());
+    List<String> argsList = new ArrayList<>();
+    String str = "-archiveName,ARCHIVE_440303299597434880.har,"
+        + "-p,"
+        + "/cirro_cluster_test0307/cirro_cluster_test0307.data/REG_PARTITION_1026/TEST_DOUBLE_SMALL_1027/UNICOM_201206_QUANJIAO_1059,PARTITION_1060,"
+        + "/cirro_cluster_test0307/cirro_cluster_test0307.data/REG_PARTITION_1026/TEST_DOUBLE_SMALL_1027/UNICOM_201206_QUANJIAO_1059/ARCHIVE/ARCHIVE_6";
+    argsList.addAll(Arrays.asList(str.split(",")));
+    System.out.println("0000"+UserGroupInformation.getLoginUser());
+    UserGroupInformation userGroupInformation = UserGroupInformation.createRemoteUser("iotdb");
+    userGroupInformation.doAs(new PrivilegedExceptionAction<Integer>() {
+      public Integer run() throws Exception {
+        HadoopArchives harchives = new HadoopArchives(conf);
+        String[] args = argsList.toArray(new String[argsList.size()]);
+        System.out.println("444"+UserGroupInformation.getLoginUser());
+        return ToolRunner.run(harchives, args);
+      }
+    });
+    System.out.println("11111"+UserGroupInformation.getLoginUser());
+  }
   public static void writeArchiveFile3() throws Exception {
     Configuration conf = new Configuration();
     // Set FileSystem URI
@@ -114,15 +139,24 @@ public class HdfsWrite {
     conf.set("fs.defaultFS", hdfsuri);
     // Because of Maven
     conf.set("fs.hdfs.impl", org.apache.hadoop.hdfs.DistributedFileSystem.class.getName());
+    conf.set("mapreduce.job.user.name", "root");
 
-//    UserGroupInformation userGroupInformation = UserGroupInformation.createRemoteUser("iotdb");
-//    UserGroupInformation.setLoginUser(userGroupInformation);
-//    JobConf jobConf = new JobConf(conf);
-//    jobConf.setUser("iotdb");
-//    jobConf.setJobName("ARCHIVE_121.har");
-    HadoopArchives hadoopArchives = new HadoopArchives(conf);
+    UserGroupInformation ugi = UserGroupInformation.getLoginUser();
+    System.out.println("1111=" + ugi);
+
+    UserGroupInformation userGroupInformation = UserGroupInformation.createRemoteUser("iotdb");
+    UserGroupInformation.setLoginUser(userGroupInformation);
+    System.out.println("2222=" + userGroupInformation);
+    userGroupInformation.logoutUserFromKeytab();
+    JobConf jobConf = new JobConf(conf);
+    jobConf.setUser("iotdb");
+    jobConf.setJobName("ARCHIVE_121.har");
+    HadoopArchives hadoopArchives = new HadoopArchives(jobConf);
     List<String> argsList = new ArrayList<>();
-    String str = "-archiveName,ARCHIVE_143.har,-p,/xcloud/qhl_cluster.data/QHL_DB_3/TEST_DOUBLE_SMALL_13/UNICOM_201206_QUANJIAO_85,PARTITION_87,/xcloud/qhl_cluster.data/QHL_DB_3/TEST_DOUBLE_SMALL_13/UNICOM_201206_QUANJIAO_85/ARCHIVE/ARCHIVE_121";
+    String str = "-archiveName,ARCHIVE_440303299597434880.har,"
+        + "-p,"
+        + "/cirro_cluster_test0307/cirro_cluster_test0307.data/REG_PARTITION_1026/TEST_DOUBLE_SMALL_1027/UNICOM_201206_QUANJIAO_1059,PARTITION_1060,"
+        + "/cirro_cluster_test0307/cirro_cluster_test0307.data/REG_PARTITION_1026/TEST_DOUBLE_SMALL_1027/UNICOM_201206_QUANJIAO_1059/ARCHIVE/ARCHIVE_4";
     argsList.addAll(Arrays.asList(str.split(",")));
     System.out.println(argsList);
     hadoopArchives.run(argsList.toArray(new String[argsList.size()]));
